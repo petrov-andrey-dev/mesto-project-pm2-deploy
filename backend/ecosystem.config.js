@@ -6,7 +6,7 @@ module.exports = {
   apps: [
     {
       name: "mesto-backend",
-      script: "dist/app.js",
+      script: "./app.ts",
     },
   ],
   deploy: {
