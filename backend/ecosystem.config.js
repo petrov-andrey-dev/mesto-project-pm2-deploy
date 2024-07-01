@@ -16,8 +16,9 @@ module.exports = {
       ref: REF,
       repo: REPO,
       path: PATH,
-      "pre-deploy": `scp ./backend/.env ${USER}@${HOST}:${PATH}/backend/.env`,
-      "post-deploy": `cd ./web-plus-pm2-deploy/backend && npm i && pm2 reload ecosystem.config.js --env production`,
+      'pre-setup': `mkdir -p ${PATH}/source/backend`,
+      'pre-deploy-local': `scp ./backend/.env ${USER}@${HOST}:${PATH}/source/backend/.env`,
+      'post-deploy': `cd ${PATH}/source/backend && npm install && npm run build && pm2 reload ecosystem.config.js --env production`,
     },
   },
 };
