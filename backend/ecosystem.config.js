@@ -1,6 +1,6 @@
 require('dotenv').config({ path: './.env.deploy' });
 
-const { HOST, USER, REPO, PATH, REF = 'origin/master' } = process.env;
+const { DEPLOY_HOST, DEPLOY_USER, DEPLOY_REPO, DEPLOY_PATH, DEPLOY_REF = 'origin/master' } = process.env;
 
 module.exports = {
   apps: [
@@ -11,14 +11,13 @@ module.exports = {
   ],
   deploy: {
     production: {
-      user: USER,
-      host: HOST,
-      ref: REF,
-      repo: REPO,
-      path: PATH,
-      'pre-setup': `mkdir -p ${PATH}/source/backend`,
-      'pre-deploy-local': `scp ./backend/.env ${USER}@${HOST}:${PATH}/source/backend/.env`,
-      'post-deploy': `cd ${PATH}/source/backend && npm install && npm run build && pm2 reload ecosystem.config.js --env production`,
+      user: DEPLOY_USER,
+      host: DEPLOY_HOST,
+      ref: DEPLOY_REF,
+      repo: DEPLOY_REPO,
+      path: DEPLOY_PATH,
+      'pre-deploy-local': `scp ./backend/.env ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/backend/.env`,
+      'post-deploy': `cd ${DEPLOY_PATH}/source/backend && npm install && pm2 reload ecosystem.config.js --env production`,
     },
   },
 };
